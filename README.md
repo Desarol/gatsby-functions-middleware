@@ -35,7 +35,7 @@ export default combineMiddleware(
 ```js
 // /src/api/myGatsbyFunction.js
 
-import { combineMiddleware, withHttpMethods } from 'gatsby-functions-middleware'
+import { combineMiddleware, withHttpMethods, withContentType } from 'gatsby-functions-middleware'
 
 const handler = (req, res) => {
   res.status(200).send(req.body.foo)
