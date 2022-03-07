@@ -11,6 +11,7 @@ If you're worried about adding another dependency to your bundle feel free to on
 
 ## Examples
 
+### CORS GET
 ```js
 // /src/api/myGatsbyFunction.js
 
@@ -32,6 +33,7 @@ export default combineMiddleware(
 )(handler)
 ```
 
+### POST of application/json
 ```js
 // /src/api/myGatsbyFunction.js
 
