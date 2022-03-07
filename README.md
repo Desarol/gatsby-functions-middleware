@@ -8,3 +8,41 @@ Because you want to get to writing your business logic and worry less about how 
 
 ## What are the alternatives?
 If you're worried about adding another dependency to your bundle feel free to only copy the middleware that you need into your project where necessary. This package only aims to provide a standard way to handle these common requirements.
+
+## Examples
+
+```js
+// /src/api/myGatsbyFunction.js
+
+import { combineMiddleware, withCors, withHttpMethods } from 'gatsby-functions-middleware'
+
+const handler = (req, res) => {
+  res.status(200).send('Hello, world')
+}
+
+export default combineMiddleware(
+  withCors({
+    allowOrigin: '*',
+    allowCredentials: true,
+    allowHeaders: 'x-special-header',
+    allowMethods: 'GET',
+    maxAge: 0,
+  }),
+  withHttpMethods(['OPTIONS', 'GET']),
+)(handler)
+```
+
+```js
+// /src/api/myGatsbyFunction.js
+
+import { combineMiddleware, withHttpMethods } from 'gatsby-functions-middleware'
+
+const handler = (req, res) => {
+  res.status(200).send(req.body.foo)
+}
+
+export default combineMiddleware(
+  withContentType('application/json'),
+  withHttpMethods(['POST']),
+)(handler)
+```
