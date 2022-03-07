@@ -5,6 +5,7 @@
     "types": ["gatsby", "@types/react-dom"],
     "moduleResolution": "node",
     "esModuleInterop": true,
+    "declaration": true,
     "noImplicitAny": true
   }
 }

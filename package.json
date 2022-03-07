@@ -5,13 +5,14 @@
   "main": "index.js",
   "type": "module",
   "files": [
+    "index.d.ts",
     "index.js"
   ],
   "peerDependencies": {
     "gatsby": "^3.7.0"
   },
   "scripts": {
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "build": "tsc || true",
     "test": "npm run build && node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },

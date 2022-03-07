@@ -3,4 +3,5 @@ node_modules
 
 # Build artifacts
 index.js
+index.d.ts
 *.tgz
