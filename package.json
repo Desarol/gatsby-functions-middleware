@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "files": [
     "index.js"
   ],
@@ -12,13 +13,13 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "tsc || true",
-    "test": "npm run build && jest"
+    "test": "npm run build && node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "author": "David Disch",
   "license": "MIT",
   "devDependencies": {
     "@types/react-dom": "^17.0.11",
-    "gatsby": "^4.8.1",
+    "gatsby": "^4.9.1",
     "jest": "^27.5.1",
     "typescript": "^4.6.2"
   },

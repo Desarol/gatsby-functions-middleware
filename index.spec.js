@@ -1,4 +1,5 @@
-const { combineMiddleware, withHttpMethods, withContentTypes, withAuthorization } = require('./index')
+import { jest } from '@jest/globals'
+import { combineMiddleware, withHttpMethods, withContentTypes, withAuthorization, withCors } from './index'
 
 const createRequest = (method, headers) => {
   return {
@@ -11,7 +12,8 @@ const createResponse = () => {
   return {
     status: jest.fn(function () { return this }),
     send: jest.fn(function () { return this }),
-    json: jest.fn(function () { return this })
+    json: jest.fn(function () { return this }),
+    setHeader: jest.fn(function () { return this }),
   }
 }
 
@@ -136,4 +138,58 @@ describe('withAuthorization', () => {
     expect(handler).toBeCalled()
   })
   
+})
+
+describe('withCors', () => {
+
+  it('should respond to OPTIONS requests', () => {
+    const middleware = [withCors({
+      allowOrigin: '*',
+      allowCredentials: true,
+      allowHeaders: 'x-special-header',
+      allowMethods: 'GET',
+      maxAge: 0,
+    })]
+    const handler = jest.fn()
+
+    const req = createRequest('OPTIONS')
+    const res = createResponse()
+    combineMiddleware(...middleware)(handler)(req, res)
+
+    expect(res.status).toBeCalledWith(204)
+    expect(res.setHeader.mock.calls).toEqual(
+      expect.arrayContaining([
+        ['Access-Control-Allow-Origin', '*'],
+        ['Access-Control-Allow-Methods', 'GET'],
+        ['Access-Control-Allow-Headers', 'x-special-header'],
+        ['Access-Control-Allow-Credentials', 'true'],
+        ['Access-Control-Max-Age', 0],
+      ])
+    )
+    expect(res.send).toBeCalled()
+  })
+
+
+  it('should forward all other requests', () => {
+    const middleware = [withCors({
+      allowOrigin: '*',
+      allowCredentials: true,
+      allowHeaders: 'x-special-header',
+      allowMethods: 'GET',
+      maxAge: 0,
+    })]
+    const handler = jest.fn(
+      (_, res) => (
+        res.status(200).send()
+      )
+    )
+
+    const req = createRequest('GET')
+    const res = createResponse()
+    combineMiddleware(...middleware)(handler)(req, res)
+
+    expect(res.status).toBeCalledWith(200)
+    expect(res.send).toBeCalled()
+  })
+
 })

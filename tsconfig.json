@@ -1,7 +1,7 @@
 {
   "include": ["./index.ts"],
   "compilerOptions": {
-    "target": "ES5",
+    "target": "ES2015",
     "types": ["gatsby", "@types/react-dom"],
     "moduleResolution": "node",
     "esModuleInterop": true,
